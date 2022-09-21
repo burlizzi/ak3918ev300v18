@@ -21,12 +21,12 @@ typedef long time_t;
 #define COLOR_END                "\033[0m"
 
 #define COLOR_MODE_NORMAL        0                                                                  //È±Ê¡Ä£Ê½
-#define COLOR_MODE_BOLD          1                                                                  //¸ßÁÁ
-#define COLOR_MODE_UNDERLINED    4                                                                  //ÏÂ»®Ïß
-#define COLOR_MODE_BLINK         5                                                                  //ÉÁË¸
-#define COLOR_MODE_NEGATIVE      7                                                                  //·´É«
+#define COLOR_MODE_BOLD          1                                                                  //ï¿½ï¿½ï¿½ï¿½
+#define COLOR_MODE_UNDERLINED    4                                                                  //ï¿½Â»ï¿½ï¿½ï¿½
+#define COLOR_MODE_BLINK         5                                                                  //ï¿½ï¿½Ë¸
+#define COLOR_MODE_NEGATIVE      7                                                                  //ï¿½ï¿½É«
 
-#define COLOR_BACK_BLACK         40                                                                 //±³¾°ÑÕÉ«¶¨Òå
+#define COLOR_BACK_BLACK         40                                                                 //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½
 #define COLOR_BACK_RED           41
 #define COLOR_BACK_GREEN         42
 #define COLOR_BACK_YELLOW        43
@@ -35,7 +35,7 @@ typedef long time_t;
 #define COLOR_BACK_CYAN          46
 #define COLOR_BACK_WHITE         47
 
-#define COLOR_FRONT_BLACK        30                                                                 //×ÖÌåÑÕÉ«¶¨Òå
+#define COLOR_FRONT_BLACK        30                                                                 //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½
 #define COLOR_FRONT_RED          31
 #define COLOR_FRONT_GREEN        32
 #define COLOR_FRONT_YELLOW       33
@@ -113,7 +113,7 @@ int ak_print(int level, const char *fmt, ...)__attribute__((format(printf,2,3)))
 #define ak_print_debug_ex(fmt, arg...) \
 	ak_print(LOG_LEVEL_DEBUG,  "[%s:%d] " fmt, __func__, __LINE__, ##arg)
 
-/* magic test ºê£¬ÓÃÓÚ²âÊÔ½Ó¿Ú´«ÈëµÄ²ÎÊýÊÇ·ñ±¾Ä£¿é·µ»ØµÄ */
+/* magic test ï¿½ê£¬ï¿½ï¿½ï¿½Ú²ï¿½ï¿½Ô½Ó¿Ú´ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Ä£ï¿½é·µï¿½Øµï¿½ */
 #define TEST_MAGIC(_handle, _magic)  (_handle->magic != _magic)
 
 #define CHECK_MAGIC_RETURN_VAL(_handle, _magic, _val)	\

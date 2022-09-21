@@ -86,7 +86,6 @@ struct ak_motor {
 	int 				phase_pin[AK_MOTOR_PHASE_NUM]; /*phase pin*/
 	spinlock_t 			lock;
 	u32 		 		angular_speed;
-//	u32 				delay;
 	struct timer_list	detect_timer;
 
 	void *hw_timer;
@@ -113,7 +112,9 @@ struct ak_motor_dev {
 };
 
 /*clockwise*/
-static unsigned char ctrl_tbl_cw[] = {0x03, 0x06, 0x0c, 0x09};
+static const unsigned char ctrl_tbl_cw[] = {0x03, 0x06, 0x0c, 0x09};
+static const int cycle_steps = 2048;
+static const int ctrl_phrase = (sizeof (ctrl_tbl_cw) / sizeof (ctrl_tbl_cw[0]));
 
 /*anticlockwise*/
 //static unsigned char ctrl_tbl_acw[] = {0x03, 0x09, 0x0c, 0x06};
@@ -190,8 +191,8 @@ static int ak_motor_open(struct inode *inode, struct file *file)
 
 		/// Init Parameter.
 		motor_dev->Param.pos = 0;
-		motor_dev->Param.steps_one_circle = 4096;
-		motor_dev->Param.total_steps = 4096;
+		motor_dev->Param.steps_one_circle = cycle_steps;
+		motor_dev->Param.total_steps = cycle_steps;
 		motor_dev->Param.speed_step = 1000 / get_delay_by_speed (motor->angular_speed);
 		motor_dev->Param.boundary_steps = 0;
 	}
@@ -437,6 +438,7 @@ static long ak_motor_ioctl(struct file *file, unsigned int cmd, unsigned long ar
 			break;
 
 		/// 以下命令引用自 AnycloudV500 平台。
+		gsfgdfs
 		case MOTOR_GET_STATUS: {
 			struct motor_message Mesg;
 			Mesg.total_steps = motor_dev->Param.total_steps;
@@ -655,9 +657,9 @@ static int ak_motor_hw_timer_handler(void *data)
 
 	ctrl = ctrl_tbl_cw[runtime->ctrl_index];
 	if (runtime->cw) {
-		runtime->ctrl_index = (runtime->ctrl_index + 1) % (sizeof(ctrl_tbl_cw) / sizeof(ctrl_tbl_cw[0]));
+		runtime->ctrl_index = (runtime->ctrl_index + 1) % ctrl_phrase;
 	} else {
-		runtime->ctrl_index = (runtime->ctrl_index - 1 + 4) % (sizeof(ctrl_tbl_cw) / sizeof(ctrl_tbl_cw[0]));
+		runtime->ctrl_index = (runtime->ctrl_index - 1 + ctrl_phrase) % ctrl_phrase;
 	}
 
 	for (j=0; j<AK_MOTOR_PHASE_NUM; j++) {
@@ -674,10 +676,11 @@ static int ak_motor_hw_timer_handler(void *data)
 		motor_dev->Param.pos = (motor_dev->Param.pos < 0) ? 0 : motor_dev->Param.pos;
 	} else {
 		motor_dev->Param.pos += 1;
-		motor_dev->Param.pos = (motor_dev->Param.pos >= motor_dev->Param.steps_one_circle) ? motor_dev->Param.steps_one_circle - 1 : motor_dev->Param.pos;
+		motor_dev->Param.pos = (motor_dev->Param.pos >= motor_dev->Param.total_steps) ? motor_dev->Param.total_steps - 1 : motor_dev->Param.pos;
 	}
 
-	//printk (KERN_ERR "step = %d\r\n", motor_dev->Param.pos);
+	printk (KERN_DEBUG "Step %d / %d / %d\r\n", motor_dev->Param.pos,
+			motor_dev->Param.total_steps, motor_dev->Param.steps_one_circle);
 	spin_unlock_irqrestore(&motor_dev->lock, flags);
 	return domore;
 out:

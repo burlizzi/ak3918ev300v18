@@ -49,7 +49,7 @@
 
 #define SEC2MSEC                    1000
 
-#define DEFAULT_SENSOR_PATH         "/usr/local"              //ISP config file path
+#define DEFAULT_SENSOR_PATH         "/etc/jffs2"              //ISP config file path
 #define DEFAULT_TMP_PATH            "/mnt/tmp"                //record file tmp path
 
 char ac_option_hint[  ][ LEN_HINT ] = {                       //hint array of help for print
@@ -72,7 +72,7 @@ char ac_option_hint[  ][ LEN_HINT ] = {                       //hint array of he
 	"[1|2]  PLAN: 1 | ALARM: 2 (DEFAULT: 1)" ,
 	"[NUM]  (DEFAULT: 100)" ,
 	"[NUM]  [NUM]  (MP3: 2 | AMR: 3 | AAC: 4 | PCM: 6 | ALAW: 17 | ULAW: 18 )" ,
-	"[PATH] (DEFAULT: /usr/local/)" ,
+	"[PATH] (DEFAULT: /etc/jffs2/)" ,
 	"[PATH] (DEFAULT: /mnt/CYC_DV/)" ,
 	"[PATH] (DEFAULT: /mnt/tmp/)" ,
 	"[PATH] (DEFAULT: CYC_DV_)" ,
@@ -379,9 +379,9 @@ void prog_exit(int i_signal)
 
 /**
  * Preconditions:
- * 1¡¢TF card is already mounted
- * 2¡¢sensor-path(default: /usr/local/) and record-path(/mnt/CYC_DV/) and record-tmp-path(/mnt/tmp/) must be exist
- * 3¡¢main video progress must stop
+ * 1ï¿½ï¿½TF card is already mounted
+ * 2ï¿½ï¿½sensor-path(default: /usr/local/) and record-path(/mnt/CYC_DV/) and record-tmp-path(/mnt/tmp/) must be exist
+ * 3ï¿½ï¿½main video progress must stop
  */
 int main (int argc, char **argv)
 {

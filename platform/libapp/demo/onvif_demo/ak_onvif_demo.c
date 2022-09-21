@@ -433,6 +433,23 @@ static void *onvif_init_venc(int index)
 		param.goplen = onvif_ctrl.param.main_fps * onvif_ctrl.param.gop_len;
 		param.bps = onvif_ctrl.param.main_kbps;	//kbps
 		param.profile = PROFILE_MAIN;	//default main profile
+		param.profile = PROFILE_HEVC_MAIN;
+
+		param.use_chn = ENCODE_MAIN_CHN;
+		param.enc_grp = ENCODE_MAINCHN_NET;
+		param.br_mode = onvif_ctrl.param.main_video_mode;
+		param.enc_out_type = H264_ENC_TYPE;
+		param.enc_out_type = HEVC_ENC_TYPE;
+		break;
+	case ENCODE_RECORD:	/* main channel */
+		param.width = onvif_ctrl.param.main_width;
+		param.height = onvif_ctrl.param.main_height;
+		param.minqp = onvif_ctrl.param.min_qp;
+		param.maxqp = onvif_ctrl.param.max_qp;
+		param.fps = onvif_ctrl.param.main_fps;
+		param.goplen = onvif_ctrl.param.main_fps * onvif_ctrl.param.gop_len;
+		param.bps = onvif_ctrl.param.main_kbps;	//kbps
+		param.profile = PROFILE_MAIN;	//default main profile
 		param.use_chn = ENCODE_MAIN_CHN;
 		param.enc_grp = ENCODE_MAINCHN_NET;
 		param.br_mode = onvif_ctrl.param.main_video_mode;

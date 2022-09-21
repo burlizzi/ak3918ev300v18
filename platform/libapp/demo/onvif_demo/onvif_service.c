@@ -994,7 +994,7 @@ int GetOnvifData(onvif_data_t *onvif_data)
 
 	onvif_format_gb_to_Jovision__code(gb_code, strlen((char *)gb_code),
 		   	(unsigned char *)onvif_data->identification_name);
-	//IniReadString ("onvif_data", "if_name", "H264_IPCAM",
+	//IniReadString ("onvif_data", "if_name", "H265_IPCAM",
 	//onvif_data->identification_name, 256,"/etc/jffs2/onvif_data.ini");
 	IniReadString ("onvif_data", "if_location", "shenzhen",
 		   	onvif_data->identification_location, 256, "/etc/jffs2/onvif_data.ini");

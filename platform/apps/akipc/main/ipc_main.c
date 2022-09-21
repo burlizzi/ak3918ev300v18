@@ -213,6 +213,8 @@ static int init_vi(void)
 			resolution.height);
 		camera->main_max_height = resolution.height;
 	}
+	//camera->main_enc_type=2;
+
 	
 	memset(&attr, 0x00, sizeof(attr));
 	attr.res[VIDEO_CHN_MAIN].width = camera->main_width;
@@ -252,6 +254,7 @@ static int init_vi(void)
 /* match sensor according to ISP config file path */
 static int match_sensor(const char *isp_cfg_path)
 {
+	printf("isp_cfg_path:%s\n", isp_cfg_path);
 	DIR *dir = opendir(isp_cfg_path);
 	if (NULL == dir) {
 		ak_print_normal_ex("it fails to open directory %s\n", isp_cfg_path);
@@ -280,13 +283,14 @@ static int match_sensor(const char *isp_cfg_path)
 	if (strstr(sensor_if, "mipi1"))
 		strcpy(tmpstr, "mipi_1");
 	else if (strstr(sensor_if, "mipi2"))
-		strcpy(tmpstr, "mipi_2");
+		strcpy(tmpstr, "mipi2");
 	else
 		dvp_flag = 1;
 
 	ak_print_normal_ex("sensor_if:%s\n", sensor_if);
 
 	while (NULL != (dir_ent = readdir(dir))) {
+		printf("try:%s%s\n", isp_cfg_path, dir_ent->d_name);
 		if (!dir_ent->d_name)
 			continue;
 
@@ -311,6 +315,7 @@ static int match_sensor(const char *isp_cfg_path)
 		}
 
 		sprintf(isp_file, "%s%s", isp_cfg_path, dir_ent->d_name);
+		ak_print_warning_ex("isp_file:%s%s\n", isp_cfg_path, dir_ent->d_name);
 		/* get sensor id, match config file */
 		if(AK_SUCCESS == ak_vi_match_sensor(isp_file)) {
 			ak_print_notice_ex("ak_vi_match_sensor OK\n");
@@ -708,7 +713,7 @@ static int init_software(void)
 	/* init voice play module */
 	ak_misc_init_voice_tips(ao_handle);
 
-	if (ak_misc_ipc_first_run()) {
+	if (false && ak_misc_ipc_first_run()) {
 		struct audio_param file_param = {AK_AUDIO_TYPE_MP3, 8000, 16, 1};
 		ak_misc_add_voice_tips("/usr/share/anyka_camera_start.mp3", &file_param);
 	}

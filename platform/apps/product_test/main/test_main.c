@@ -526,8 +526,8 @@ int main(int argc, char **argv)
 		return -1;
 	}
 	/* if play this ok, speak out is ok */
-	struct audio_param file_param = {AK_AUDIO_TYPE_MP3, 8000, 16, 1};
-	test_add_voice_tips("/usr/share/anyka_camera_start.mp3", &file_param);
+	//struct audio_param file_param = {AK_AUDIO_TYPE_MP3, 8000, 16, 1};
+	//test_add_voice_tips("/usr/share/anyka_camera_start.mp3", &file_param);
 
 	start_test(vi_handle, ai_handle, ao_handle);
 	test_audio_start(ai_handle);
